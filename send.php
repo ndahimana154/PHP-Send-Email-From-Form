@@ -7,13 +7,16 @@ use PHPMailer\PHPMailer\Exception;
 require 'phpmailer/src/Exception.php';
 require 'phpmailer/src/PHPMailer.php';
 require 'phpmailer/src/SMTP.php';
+
+
+try {
+
 if (isset($_POST['cfn'])) {
     $names = $_POST['names'];
     $email = $_POST['email'];
-    //Create an instance
+    // Create an instance
     $mail = new PHPMailer(true);
-    try {
-        //Server settings 
+        // Server settings 
         $mail->isSMTP();
         $mail->Host = 'smtp.gmail.com';
         $mail->SMTPAuth = true;
@@ -34,15 +37,18 @@ if (isset($_POST['cfn'])) {
         //Content
         $mail->isHTML(true);
         $mail->Subject = "Thanks for Subscribing";
-        $mail->Body = "Hello $names. Thanks for subscribing to our NewsLetter. With Email: $email";
+        $mail->Body = "Hello ";
 
         $mail->send();
         echo "Email Subscription Succed.";
         ob_end_flush();
         exit();
-    } catch (Exception $e) {
+    }
+    
+}
+    catch (Exception $e) {
         echo"Subscription Failed, We are trying to handle the error.";
         echo 'Mailer Error: ' . $mail->ErrorInfo;
     }
-}
+
 ?>
